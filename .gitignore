@@ -31,3 +31,7 @@ npm-debug.log
 
 # Custom config file
 config.js
+
+# Sublime workspace
+*.sublime-project
+*.sublime-workspace
