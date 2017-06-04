@@ -30,4 +30,12 @@ router.get('/victim/:name/limit/:rows', function(req, res, next) {
 	queries.getByVictimLimit(req.params.name, req.params.rows, req.handleQueryResults);
 });
 
+router.get('/weapon/:name', function(req, res, next) {
+	queries.getByWeapon(req.params.name, req.handleQueryResults);
+});
+
+router.get('/weapon/:name/limit/:rows', function(req, res, next) {
+	queries.getByWeaponLimit(req.params.name, req.params.rows, req.handleQueryResults);
+});
+
 module.exports = router;

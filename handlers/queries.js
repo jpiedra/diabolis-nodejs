@@ -42,7 +42,7 @@ exports.getByPlayerLimit = function(name, limit, callback) {
 
 		connection.query({
 			sql: 'SELECT * FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ?',
-			values: [name, rLimit]
+			values: [lName, rLimit]
 		}, function(err, result, fields) {
 			if (err) {
 				callback(err, null);
@@ -78,7 +78,44 @@ exports.getByVictimLimit = function(name, limit, callback) {
 		var rLimit = parseInt(limit);
 
 		connection.query({
-			sql: 'SELECT * FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ?',
+			sql: 'SELECT * FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ?',
+			values: [lName, rLimit]
+		}, function(err, result, fields) {
+			if (err) {
+				callback(err, null);
+			} else {
+				callback(null, result);
+			};
+		});
+	});
+};
+
+exports.getByWeapon = function(name, callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) callback(err, null);
+		var lName = '%' + name + '%';
+
+		connection.query({
+			sql: 'SELECT * FROM frag WHERE `kwep` LIKE ? ORDER BY dt DESC',
+			values: [lName]
+		}, function(err, result, fields) {
+			if (err) {
+				callback(err, null);
+			} else {
+				callback(null, result);
+			};
+		});
+	});
+};
+
+exports.getByWeaponLimit = function(name, limit, callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) callback(err, null);
+		var lName = '%' + name + '%';
+		var rLimit = parseInt(limit);
+
+		connection.query({
+			sql: 'SELECT * FROM frag WHERE `kwep` LIKE ? ORDER BY dt DESC LIMIT ?',
 			values: [lName, rLimit]
 		}, function(err, result, fields) {
 			if (err) {
