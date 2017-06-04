@@ -4,13 +4,23 @@ var queries = require('../handlers/queries');
 //var helpers = require('../utils');
 
 router.use(function (req, res, next) {
-	req.handleQueryResults = function(err, results) {
+	// there should be a better way of making this function available to all routes...
+	req.handleQueryResults = function(err, rows) {
 		if (err) {
 			next(err);
 		} else {
 			res.set('Content-Type', 'application/json');
-			res.send(results);
+			res.send(rows);
 		};
+	};
+	// what if the callback just sets the response object's contents...
+	req.setQueryResults = function(err, rows) {
+		if (err) {
+			next(err);
+		} else {
+			res.set('Content-Type', 'application/json');
+			res.rows = rows;
+		};	
 	};
 	next();
 });
@@ -38,5 +48,19 @@ router.get('/weapon/:name', function(req, res, next) {
 router.get('/weapon/:name/limit/:rows', function(req, res, next) {
 	queries.getByWeaponLimit(req.params.name, req.params.rows, req.handleQueryResults);
 });
+
+router.get('/topten', 
+	function(req, res, next) {
+		// first middleware runs the query
+		// trying to make callback set response member 'rows'
+		queries.getTopTen(req.setQueryResults);
+		next();
+	},
+	function(req, res, next) {
+		// last middleware sends response
+		// after the first middleware runs query, second actually sends data.
+		res.send(res.rows);
+	} 
+);
 
 module.exports = router;
