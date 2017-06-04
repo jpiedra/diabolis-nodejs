@@ -1,6 +1,8 @@
 var pool = require('../connectors/database');
 
-exports.getTopTen = function(callback) {
+var queries = {};
+
+queries.getTopTen = function(callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -18,7 +20,7 @@ exports.getTopTen = function(callback) {
 	});
 };
 
-exports.getByPlayer = function(name, callback) {
+queries.getByPlayer = function(name, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -39,7 +41,7 @@ exports.getByPlayer = function(name, callback) {
 	});
 };
 
-exports.getByPlayerLimit = function(name, limit, callback) {
+queries.getByPlayerLimit = function(name, limit, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -61,7 +63,7 @@ exports.getByPlayerLimit = function(name, limit, callback) {
 	});
 };
 
-exports.getByVictim = function(name, callback) {
+queries.getByVictim = function(name, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -82,7 +84,7 @@ exports.getByVictim = function(name, callback) {
 	});
 };
 
-exports.getByVictimLimit = function(name, limit, callback) {
+queries.getByVictimLimit = function(name, limit, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -104,7 +106,7 @@ exports.getByVictimLimit = function(name, limit, callback) {
 	});
 };
 
-exports.getByWeapon = function(name, callback) {
+queries.getByWeapon = function(name, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -125,7 +127,7 @@ exports.getByWeapon = function(name, callback) {
 	});
 };
 
-exports.getByWeaponLimit = function(name, limit, callback) {
+queries.getByWeaponLimit = function(name, limit, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -146,3 +148,5 @@ exports.getByWeaponLimit = function(name, limit, callback) {
 		};
 	});
 };
+
+module.exports = queries;

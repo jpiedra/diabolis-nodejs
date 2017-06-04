@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var queries = require('../handlers/queries');
+//var helpers = require('../utils');
 
 router.use(function (req, res, next) {
 	req.handleQueryResults = function(err, results) {
