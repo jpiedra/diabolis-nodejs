@@ -25,6 +25,10 @@ router.use(function (req, res, next) {
 	next();
 });
 
+router.get('/limit/:rows', function (req, res, next) {
+	queries.getLimit(req.params.rows, req.handleQueryResults);
+});
+
 router.get('/player/:name', function(req, res, next) {
 	queries.getByPlayer(req.params.name, req.handleQueryResults);
 });
@@ -49,7 +53,7 @@ router.get('/weapon/:name/limit/:rows', function(req, res, next) {
 	queries.getByWeaponLimit(req.params.name, req.params.rows, req.handleQueryResults);
 });
 
-router.get('/topten', 
+/*router.get('/topten', 
 	function(req, res, next) {
 		// first middleware runs the query
 		// trying to make callback set response member 'rows'
@@ -61,6 +65,6 @@ router.get('/topten',
 		// after the first middleware runs query, second actually sends data.
 		res.send(res.rows);
 	} 
-);
+);*/
 
 module.exports = router;
