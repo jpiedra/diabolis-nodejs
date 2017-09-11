@@ -2,7 +2,7 @@ var mysql = require('mysql');
 var config = require('../config');
 
 var pool = mysql.createPool({
-	connectionLimit: 10,
+	connectionLimit: 1000,
 	timeout: 40000,
 	host: config.settings[config.env].db.host,
 	user: config.settings[config.env].db.user,

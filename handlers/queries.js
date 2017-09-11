@@ -1,8 +1,9 @@
 var pool = require('../connectors/database');
 
 var queries = {};
+queries.ROW_LIMIT = 25
 
-/*queries.getTopTen = function(callback) {
+queries.getTopTen = function(callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -18,7 +19,7 @@ var queries = {};
 			});
 		};
 	});
-};*/
+};
 
 queries.getLimit = function(limit, callback) {
 	pool.getConnection(function (err, connection) {
@@ -26,10 +27,34 @@ queries.getLimit = function(limit, callback) {
 			callback(err, null);
 		} else {
 			var rLimit = parseInt(limit);
-			rLimit = rLimit > 100 ? 100 : rLimit;
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
 				sql: 'SELECT * FROM frag ORDER BY dt DESC LIMIT ?',
 				values: [rLimit]
+			}, function(err, result, fields) {
+				if (err) {
+					callback(err, null);
+				} else {
+					callback(null, result);	
+				};			
+			});
+		};
+	});
+};
+
+queries.getLimitPage = function(limit, page, callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) {
+			callback(err, null);
+		} else {
+			var rLimit = parseInt(limit);
+			var rOffset = parseInt(page);
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
+			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
+			rOffset = rLimit * rOffset;
+			connection.query({
+				sql: 'SELECT * FROM frag ORDER BY dt DESC LIMIT ?,?',
+				values: [rOffset, rLimit]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);
@@ -69,7 +94,7 @@ queries.getByPlayerLimit = function(name, limit, callback) {
 		} else {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
-			rLimit = rLimit > 100 ? 100 : rLimit;
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
 				sql: 'SELECT * FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [lName, rLimit]
@@ -112,7 +137,7 @@ queries.getByVictimLimit = function(name, limit, callback) {
 		} else {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
-			rLimit = rLimit > 100 ? 100 : rLimit;
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
 				sql: 'SELECT * FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [lName, rLimit]
@@ -155,7 +180,7 @@ queries.getByWeaponLimit = function(name, limit, callback) {
 		} else {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
-			rLimit = rLimit > 100 ? 100 : rLimit;
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
 				sql: 'SELECT * FROM frag WHERE `kwep` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [lName, rLimit]
