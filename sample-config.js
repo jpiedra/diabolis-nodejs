@@ -1,7 +1,8 @@
 /*
 Sample of the config file used for this application.
 Substitute the respective values for your development and production MySql database servers.
-Lastly, rename this file to 'config.js' or include it in 'connectors/database.js' under the desired name.
+Lastly, rename this file to 'config.js' or include it in 'connectors/database.js' and in 
+'handlers/queries.js' under the desired name.
 */
 var config = {};
 
@@ -13,7 +14,10 @@ config.settings['development'] = {
 		host: 'DEV-DB-HOST',
 		user: 'DEV-DB-USER',
 		password: 'DEV-DB-PASSWORD',
-		database: 'DEV-DB'
+		database: 'DEV-DB',
+		columns: [
+			'name', 'email', 'another-column'
+		]
 	}	
 };
 
@@ -22,7 +26,10 @@ config.settings['production'] = {
 		host: 'PROD-DB-HOST',
 		user: 'PROD-DB-USER',
 		password: 'PROD-DB-PASSWORD',
-		database: 'PROD-DB'
+		database: 'PROD-DB',
+		columns: [
+			'name', 'email', 'another-column'
+		]
 	}	
 };
 
