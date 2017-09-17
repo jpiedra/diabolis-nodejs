@@ -57,26 +57,16 @@ router.get('/victim/:name/limit/:rows/page/:page', function(req, res, next) {
 	queries.getByVictimLimitPage(req.params.name, req.params.rows, req.params.page, req.handleQueryResults);
 });
 
-router.get('/weapon/:name', function(req, res, next) {
-	queries.getByWeapon(req.params.name, req.handleQueryResults);
+router.get('/map/:name', function(req, res, next) {
+	queries.getByMap(req.params.name, req.handleQueryResults);
 });
 
-router.get('/weapon/:name/limit/:rows', function(req, res, next) {
-	queries.getByWeaponLimit(req.params.name, req.params.rows, req.handleQueryResults);
+router.get('/map/:name/limit/:rows', function(req, res, next) {
+	queries.getByMapLimit(req.params.name, req.params.rows, req.handleQueryResults);
 });
 
-/*router.get('/topten', 
-	function(req, res, next) {
-		// first middleware runs the query
-		// trying to make callback set response member 'rows'
-		queries.getTopTen(req.setQueryResults);
-		next();
-	},
-	function(req, res, next) {
-		// last middleware sends response
-		// after the first middleware runs query, second actually sends data.
-		res.send(res.rows);
-	} 
-);*/
+router.get('/map/:name/limit/:rows/page/:page', function(req, res, next) {
+	queries.getByMapLimitPage(req.params.name, req.params.rows, req.params.page, req.handleQueryResults);
+});
 
 module.exports = router;

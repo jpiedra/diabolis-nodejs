@@ -207,7 +207,7 @@ queries.getByVictimLimitPage = function(name, limit, page, callback) {
 	});
 };
 
-queries.getByWeapon = function(name, callback) {
+queries.getByMap = function(name, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -215,7 +215,7 @@ queries.getByWeapon = function(name, callback) {
 			var lName = '%' + name + '%';
 
 			connection.query({
-				sql: 'SELECT ?? FROM frag WHERE `kwep` LIKE ? ORDER BY dt DESC',
+				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC',
 				values: [queries.COLUMNS, lName]
 			}, function(err, result, fields) {
 				if (err) {
@@ -228,7 +228,7 @@ queries.getByWeapon = function(name, callback) {
 	});
 };
 
-queries.getByWeaponLimit = function(name, limit, callback) {
+queries.getByMapLimit = function(name, limit, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
@@ -237,8 +237,34 @@ queries.getByWeaponLimit = function(name, limit, callback) {
 			var rLimit = parseInt(limit);
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
-				sql: 'SELECT ?? FROM frag WHERE `kwep` LIKE ? ORDER BY dt DESC LIMIT ?',
+				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [queries.COLUMNS, lName, rLimit]
+			}, function(err, result, fields) {
+				if (err) {
+					callback(err, null);
+				} else {
+					callback(null, result);
+				};
+			});
+		};
+	});
+};
+
+queries.getByMapLimitPage = function(name, limit, page, callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) {
+			callback(err, null);
+		} else {
+			var lName = '%' + name + '%';
+			var rLimit = parseInt(limit);
+			var rOffset = parseInt(page);
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
+			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
+			rOffset = rLimit * rOffset;
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
+			connection.query({
+				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC LIMIT ?,?',
+				values: [queries.COLUMNS, lName, rOffset, rLimit]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);
