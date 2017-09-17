@@ -113,6 +113,32 @@ queries.getByPlayerLimit = function(name, limit, callback) {
 	});
 };
 
+queries.getByPlayerLimitPage = function(name, limit, page, callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) {
+			callback(err, null);
+		} else {
+			var lName = '%' + name + '%';
+			var rLimit = parseInt(limit);
+			var rOffset = parseInt(page);
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
+			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
+			rOffset = rLimit * rOffset;
+			connection.query({
+				sql: 'SELECT ?? FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ?,?',
+				values: [queries.COLUMNS, lName, rOffset, rLimit]
+			}, function(err, result, fields) {
+				if (err) {
+					callback(err, null);
+				} else {
+					callback(null, result);
+				};
+			});
+		};
+	});
+};
+
+
 queries.getByVictim = function(name, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
@@ -145,6 +171,31 @@ queries.getByVictimLimit = function(name, limit, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [queries.COLUMNS, lName, rLimit]
+			}, function(err, result, fields) {
+				if (err) {
+					callback(err, null);
+				} else {
+					callback(null, result);
+				};
+			});
+		};
+	});
+};
+
+queries.getByVictimLimitPage = function(name, limit, page, callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) {
+			callback(err, null);
+		} else {
+			var lName = '%' + name + '%';
+			var rLimit = parseInt(limit);
+			var rOffset = parseInt(page);
+			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
+			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
+			rOffset = rLimit * rOffset;
+			connection.query({
+				sql: 'SELECT ?? FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ?,?',
+				values: [queries.COLUMNS, lName, rOffset, rLimit]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);

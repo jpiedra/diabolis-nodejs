@@ -41,12 +41,20 @@ router.get('/player/:name/limit/:rows', function(req, res, next) {
 	queries.getByPlayerLimit(req.params.name, req.params.rows, req.handleQueryResults);
 });
 
+router.get('/player/:name/limit/:rows/page/:page', function(req, res, next) {
+	queries.getByPlayerLimitPage(req.params.name, req.params.rows, req.params.page, req.handleQueryResults);
+});
+
 router.get('/victim/:name', function(req, res, next) {
 	queries.getByVictim(req.params.name, req.handleQueryResults);
 });
 
 router.get('/victim/:name/limit/:rows', function(req, res, next) {
 	queries.getByVictimLimit(req.params.name, req.params.rows, req.handleQueryResults);
+});
+
+router.get('/victim/:name/limit/:rows/page/:page', function(req, res, next) {
+	queries.getByVictimLimitPage(req.params.name, req.params.rows, req.params.page, req.handleQueryResults);
 });
 
 router.get('/weapon/:name', function(req, res, next) {
