@@ -7,7 +7,6 @@ var bodyParser = require('body-parser');
 var cors = require('cors');
 var config = require('./config');
 
-var index = require('./routes/index');
 var frags = require('./routes/frags');
 
 var app = express();
@@ -25,8 +24,20 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
 app.use('/frags', frags);
+
+// allow specific origins
+app.use(function(req, res, next) {
+  var allowedOrigins = ['http://diabolis.net', 'http://www.diabolis.net', 'http://localhost:3000'];
+  var origin = req.headers.origin;
+  if(allowedOrigins.indexOf(origin) > -1){
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  };
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
+  return next();
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
