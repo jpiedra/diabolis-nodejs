@@ -10,7 +10,7 @@ var config = require('./config');
 var frags = require('./routes/frags');
 
 var app = express();
-if (config.env === 'development') app.use(cors());
+app.use(cors());
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
