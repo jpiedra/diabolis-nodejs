@@ -27,7 +27,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/frags', frags);
 
 // allow specific origins
-app.use(function(req, res, next) {
+/*app.use(function(req, res, next) {
   var allowedOrigins = ['http://diabolis.net', 'http://www.diabolis.net', 'http://localhost:3000'];
   var origin = req.headers.origin;
   if(allowedOrigins.indexOf(origin) > -1){
@@ -38,7 +38,7 @@ app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Credentials', true);
   return next();
 });
-
+*/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
