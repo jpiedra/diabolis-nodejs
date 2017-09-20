@@ -25,6 +25,10 @@ router.use(function (req, res, next) {
 	next();
 });
 
+router.get('/', function(req, res, next){
+	queries.getLatestFrags(req.handleQueryResults);
+});
+
 router.get('/limit/:rows', function (req, res, next) {
 	queries.getLimit(req.params.rows, req.handleQueryResults);
 });

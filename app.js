@@ -23,22 +23,19 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.disable('x-powered-by');
 
+// only allow ajax requests
+if (config.env !== 'development') {
+  app.use(function(req, res, next) {
+    if (req.xhr) return next();
+    throw new Error();
+  });
+};
+
+// route to api urls
 app.use('/frags', frags);
 
-// allow specific origins
-/*app.use(function(req, res, next) {
-  var allowedOrigins = ['http://diabolis.net', 'http://www.diabolis.net', 'http://localhost:3000'];
-  var origin = req.headers.origin;
-  if(allowedOrigins.indexOf(origin) > -1){
-       res.setHeader('Access-Control-Allow-Origin', origin);
-  };
-  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
-  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-  res.header('Access-Control-Allow-Credentials', true);
-  return next();
-});
-*/
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
@@ -50,7 +47,7 @@ app.use(function(req, res, next) {
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  res.locals.error = config.env === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);

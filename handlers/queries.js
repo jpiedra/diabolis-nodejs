@@ -7,13 +7,14 @@ queries.COLUMNS = config.settings[config.env].db.columns || [
 ]; 
 queries.ROW_LIMIT = 25
 
-queries.getTopTen = function(callback) {
+queries.getLatestFrags = function(callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
 			callback(err, null);
 		} else {
 			connection.query({
-				sql: 'SELECT * FROM frag ORDER BY dt DESC LIMIT 10'
+				sql: 'SELECT * FROM frag ORDER BY dt DESC LIMIT ?',
+				values: [queries.ROW_LIMIT]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);
