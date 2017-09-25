@@ -5,6 +5,7 @@
  */
 
 var app = require('../app');
+var config = require('../config');
 var debug = require('debug')('dbapi-node:server');
 var http = require('http');
 
@@ -26,7 +27,8 @@ var server = http.createServer(app);
  */
 
 //server.listen(port);
-server.listen(port, function(err) {
+if (config.env !== 'development') {
+  server.listen(port, function(err) {
     if (err) return cb(err);
 
     // Find out which user used sudo through the environment variable
@@ -34,7 +36,10 @@ server.listen(port, function(err) {
     // Set our server's uid to that user
     if (uid) process.setuid(uid);
     console.log('Server\'s UID is now ' + process.getuid());
-});
+  });
+} else {
+  server.listen(port);
+};
 
 server.on('error', onError);
 server.on('listening', onListening);

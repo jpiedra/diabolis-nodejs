@@ -54,12 +54,11 @@ queries.getLimitPage = function(limit, page, callback) {
 		} else {
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
+			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
-			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
-			rOffset = rLimit * rOffset;
 			connection.query({
-				sql: 'SELECT ?? FROM frag ORDER BY dt DESC LIMIT ?,?',
-				values: [queries.COLUMNS, rOffset, rLimit]
+				sql: 'SELECT ?? FROM frag ORDER BY dt DESC LIMIT ? OFFSET ?',
+				values: [queries.COLUMNS, rLimit, rOffset]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);
@@ -122,12 +121,11 @@ queries.getByPlayerLimitPage = function(name, limit, page, callback) {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
+			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
-			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
-			rOffset = rLimit * rOffset;
 			connection.query({
-				sql: 'SELECT ?? FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ?,?',
-				values: [queries.COLUMNS, lName, rOffset, rLimit]
+				sql: 'SELECT ?? FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ? OFFSET ?',
+				values: [queries.COLUMNS, lName, rLimit, rOffset]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);
@@ -191,12 +189,11 @@ queries.getByVictimLimitPage = function(name, limit, page, callback) {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
+			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
-			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
-			rOffset = rLimit * rOffset;
 			connection.query({
-				sql: 'SELECT ?? FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ?,?',
-				values: [queries.COLUMNS, lName, rOffset, rLimit]
+				sql: 'SELECT ?? FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ? OFFSET ?',
+				values: [queries.COLUMNS, lName, rLimit, rOffset]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);
@@ -259,13 +256,11 @@ queries.getByMapLimitPage = function(name, limit, page, callback) {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
-			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
-			rOffset = rOffset > queries.ROW_LIMIT ? queries.ROW_LIMIT : rOffset;
-			rOffset = rLimit * rOffset;
+			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
-				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC LIMIT ?,?',
-				values: [queries.COLUMNS, lName, rOffset, rLimit]
+				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC LIMIT ? OFFSET ?',
+				values: [queries.COLUMNS, lName, rLimit, rOffset]
 			}, function(err, result, fields) {
 				if (err) {
 					callback(err, null);
