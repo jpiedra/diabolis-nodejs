@@ -54,6 +54,8 @@ queries.getLimitPage = function(limit, page, callback) {
 		} else {
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
+			// calculate the offset by multiplying limit by page number
+			rOffset = rOffset * rLimit;
 			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
@@ -121,6 +123,8 @@ queries.getByPlayerLimitPage = function(name, limit, page, callback) {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
+			// calculate the offset by multiplying limit by page number
+			rOffset = rOffset * rLimit;
 			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
@@ -189,6 +193,8 @@ queries.getByVictimLimitPage = function(name, limit, page, callback) {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
+			// calculate the offset by multiplying limit by page number
+			rOffset = rOffset * rLimit;
 			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
@@ -256,6 +262,8 @@ queries.getByMapLimitPage = function(name, limit, page, callback) {
 			var lName = '%' + name + '%';
 			var rLimit = parseInt(limit);
 			var rOffset = parseInt(page);
+			// calculate the offset by multiplying limit by page number
+			rOffset = rOffset * rLimit;
 			// only limit the rows returned.. page can be as high as needed.
 			rLimit = rLimit > queries.ROW_LIMIT ? queries.ROW_LIMIT : rLimit;
 			connection.query({
