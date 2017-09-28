@@ -1,26 +1,16 @@
 var express = require('express');
 var router = express.Router();
 var queries = require('../handlers/queries');
-//var helpers = require('../utils');
 
 router.use(function (req, res, next) {
 	// there should be a better way of making this function available to all routes...
 	req.handleQueryResults = function(err, rows) {
 		if (err) {
+			// log this somehow
 			next(err);
 		} else {
-			res.set('Content-Type', 'application/json');
-			res.send(rows);
+			res.json(rows);
 		};
-	};
-	// what if the callback just sets the response object's contents...
-	req.setQueryResults = function(err, rows) {
-		if (err) {
-			next(err);
-		} else {
-			res.set('Content-Type', 'application/json');
-			res.rows = rows;
-		};	
 	};
 	next();
 });
