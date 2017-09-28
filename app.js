@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var cors = require('cors');
 var config = require('./config');
+var ajax = require('./middleware/ajax');
 
 var frags = require('./routes/frags');
 
@@ -26,12 +27,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.disable('x-powered-by');
 
 // only allow ajax requests
-if (config.env !== 'development') {
-  app.use(function(req, res, next) {
-    if (req.xhr) return next();
-    throw new Error();
-  });
-};
+//if (config.env !== 'development') app.use(ajax.checkRequest);
+app.use(ajax.checkRequest);
 
 // route to api urls
 app.use('/frags', frags);
