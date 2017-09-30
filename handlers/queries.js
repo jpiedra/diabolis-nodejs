@@ -280,4 +280,25 @@ queries.getByMapLimitPage = function(name, limit, page, callback) {
 	});
 };
 
+queries.getPlayerReport = function(name, callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) {
+			callback(err, null);
+		} else {
+			var lName = name;
+
+			connection.query({
+				sql: 'CALL player_report_frags(?)',
+				values: [lName]
+			}, function(err, result, fields) {
+				if (err) {
+					callback(err, null);
+				} else {
+					callback(null, result[0]);
+				};
+			});
+		};
+	});
+};
+
 module.exports = queries;

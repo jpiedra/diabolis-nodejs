@@ -73,4 +73,8 @@ router.get('/map/:name/limit/:rows/page/:page', function(req, res, next) {
 	queries.getByMapLimitPage(req.params.name, req.params.rows, req.params.page, req.handleQueryResults);
 });
 
+router.get('/report/:name', function(req, res, next) {
+	queries.getPlayerReport(req.params.name, req.handleQueryResults);
+});
+
 module.exports = router;
