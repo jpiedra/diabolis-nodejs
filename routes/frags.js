@@ -27,6 +27,10 @@ router.get('/limit/:rows/page/:page', function (req, res, next) {
 	queries.getLimitPage(req.params.rows, req.params.page, req.handleQueryResults);
 });
 
+router.get('/player/all', function(req, res, next) {
+	queries.getPlayerList(req.handleQueryResults);
+});
+
 router.get('/player/:name', function(req, res, next) {
 	queries.getByPlayer(req.params.name, req.handleQueryResults);
 });

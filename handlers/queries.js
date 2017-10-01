@@ -280,6 +280,23 @@ queries.getByMapLimitPage = function(name, limit, page, callback) {
 	});
 };
 
+queries.getPlayerList = function(callback) {
+	pool.getConnection(function (err, connection) {
+		if (err) {
+			callback(err, null);
+		} else {
+			connection.query(
+			'SELECT DISTINCT(kname) FROM frag', function (err, result, fields) {
+				if (err) {
+					callback(err, null);
+				} else {
+					callback(null, result);
+				};
+			});
+		}
+	});
+}
+
 queries.getPlayerReport = function(name, callback) {
 	pool.getConnection(function (err, connection) {
 		if (err) {
