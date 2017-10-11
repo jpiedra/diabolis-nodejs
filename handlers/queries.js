@@ -295,7 +295,7 @@ queries.getPlayerList = function(callback) {
 			});
 		}
 	});
-}
+};
 
 queries.getPlayerReport = function(name, callback) {
 	pool.getConnection(function (err, connection) {
