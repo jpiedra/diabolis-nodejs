@@ -15,7 +15,7 @@ queries.getLatestFrags = function(callback) {
 			connection.query({
 				sql: 'SELECT * FROM frag ORDER BY dt DESC LIMIT ?',
 				values: [queries.ROW_LIMIT]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -36,7 +36,7 @@ queries.getLimit = function(limit, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag ORDER BY dt DESC LIMIT ?',
 				values: [queries.COLUMNS, rLimit]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -61,7 +61,7 @@ queries.getLimitPage = function(limit, page, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag ORDER BY dt DESC LIMIT ? OFFSET ?',
 				values: [queries.COLUMNS, rLimit, rOffset]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -70,6 +70,7 @@ queries.getLimitPage = function(limit, page, callback) {
 			});
 		};
 	});
+
 };
 
 queries.getByPlayer = function(name, callback) {
@@ -82,7 +83,7 @@ queries.getByPlayer = function(name, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC',
 				values: [queries.COLUMNS, lName]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -104,7 +105,7 @@ queries.getByPlayerLimit = function(name, limit, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [queries.COLUMNS, lName, rLimit]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -130,7 +131,7 @@ queries.getByPlayerLimitPage = function(name, limit, page, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `kname` LIKE ? ORDER BY dt DESC LIMIT ? OFFSET ?',
 				values: [queries.COLUMNS, lName, rLimit, rOffset]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -152,7 +153,7 @@ queries.getByVictim = function(name, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC',
 				values: [queries.COLUMNS, lName]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -174,7 +175,7 @@ queries.getByVictimLimit = function(name, limit, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [queries.COLUMNS, lName, rLimit]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -200,7 +201,7 @@ queries.getByVictimLimitPage = function(name, limit, page, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `vname` LIKE ? ORDER BY dt DESC LIMIT ? OFFSET ?',
 				values: [queries.COLUMNS, lName, rLimit, rOffset]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -221,7 +222,7 @@ queries.getByMap = function(name, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC',
 				values: [queries.COLUMNS, lName]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -243,7 +244,7 @@ queries.getByMapLimit = function(name, limit, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC LIMIT ?',
 				values: [queries.COLUMNS, lName, rLimit]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -269,7 +270,7 @@ queries.getByMapLimitPage = function(name, limit, page, callback) {
 			connection.query({
 				sql: 'SELECT ?? FROM frag WHERE `map` LIKE ? ORDER BY dt DESC LIMIT ? OFFSET ?',
 				values: [queries.COLUMNS, lName, rLimit, rOffset]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
@@ -285,15 +286,14 @@ queries.getPlayerList = function(callback) {
 		if (err) {
 			callback(err, null);
 		} else {
-			connection.query(
-			'SELECT DISTINCT(kname) FROM frag', function (err, result, fields) {
+			connection.query('SELECT DISTINCT(kname) FROM frag', function (err, result, fields) {
 				if (err) {
 					callback(err, null);
 				} else {
 					callback(null, result);
 				};
 			});
-		}
+		};
 	});
 };
 
@@ -307,7 +307,7 @@ queries.getPlayerReport = function(name, callback) {
 			connection.query({
 				sql: 'CALL player_report_frags(?)',
 				values: [lName]
-			}, function(err, result, fields) {
+			}, function(err, result, fields) { connection.release();
 				if (err) {
 					callback(err, null);
 				} else {
