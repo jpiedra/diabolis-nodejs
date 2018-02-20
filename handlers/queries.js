@@ -156,12 +156,28 @@ queries.getPlayerList = function(callback, response, next) {
 	performQuery('SELECT DISTINCT(kname) FROM frag', pool, callback, response, next);
 };
 
+// special case, so it should be its own 'complete' query...
 queries.getPlayerReport = function(name, callback, response, next) {
-	var lName = name;
-	performQuery({
-		sql: 'CALL player_report_frags(?)',
-		values: [lName]
-	}, pool, callback, response, next);
+	pool.getConnection(function (err, connection) {
+		if (err) {
+			connection.release();
+			callback(err, response, null, next);
+		} else {
+			var lName = name;
+			connection.query({
+				sql: 'CALL player_report_frags(?)',
+				values: [lName]
+			}, function(err, result, fields) { 
+				connection.release();
+				if (err) {
+					callback(err, response, null, next);
+				} else {
+					// report returns array, index [0] stores results
+					callback(null, response, result[0], next);	
+				};
+			});
+		};
+	});
 };
 
 module.exports = queries;
