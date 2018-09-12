@@ -35,3 +35,6 @@ config.js
 # Sublime workspace
 *.sublime-project
 *.sublime-workspace
+
+# .vscode
+.vscode
